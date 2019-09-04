@@ -3,7 +3,7 @@
         <img alt="Vue logo" src="./assets/logo.png">
         <div class="row justify-content-center">
             <div class="col-sm-12 col-md-8">
-                <bootstrap-table></bootstrap-table>
+                <bootstrap-table :columns="columns"></bootstrap-table>
             </div>
         </div>
     </div>
@@ -14,7 +14,12 @@
 
     export default {
         name: 'app',
-        components: {BootstrapTable}
+        components: {BootstrapTable},
+        computed: {
+            columns() {
+                return [{title: 'One'}, {title: 'two', children: [{title: 'A'}, {title: 'B'}, 'anoth one', 'of a kind']}]
+            }
+        }
     }
 </script>
 

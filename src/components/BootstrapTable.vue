@@ -1,27 +1,33 @@
 <template>
     <table class="table">
         <thead>
-        <tr>
-            <td>Col1</td>
-            <td>Col1</td>
-            <td>Col1</td>
-            <td>Col1</td>
-        </tr>
+        <header-row :row="headerRows"></header-row>
         </thead>
         <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
         </tbody>
     </table>
 </template>
 
 <script>
+    import HeaderRow from "../parts/HeaderRow";
+    import {store} from "../store";
+
     export default {
-        name: "BootstrapTable"
+        name: "BootstrapTable",
+        components: {HeaderRow},
+        props: {columns: {type: Array, required: true}},
+        data() {
+            return {levels: 0}
+        },
+        computed: {
+            headerRows() {
+                return store.mapColumns(this.columns);
+            }
+        },
+        methods: {},
+        created() {
+            console.log(this.headerRows,store.maxDepth);
+        }
     }
 </script>
 
