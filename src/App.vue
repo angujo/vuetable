@@ -17,7 +17,7 @@
         components: {BootstrapTable},
         computed: {
             columns() {
-                return [{title: 'One'}, {title: 'two', children: [{title: 'A'}, {title: 'B'}, 'anoth one', 'of a kind']}]
+                return [{title: 'One'}, {title: 'two', children: [{title: 'A'}, {title: 'B'}, 'anoth one', 'of a kind',['callable',3434]]}]
             }
         }
     }
