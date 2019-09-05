@@ -3,7 +3,7 @@
         <img alt="Vue logo" src="./assets/logo.png" height="50">
         <div class="row justify-content-center">
             <div class="col-sm-12 col-md-8">
-                <bootstrap-table :columns="columns"></bootstrap-table>
+                <bootstrap-table :columns="columns" source="https://jsonplaceholder.typicode.com/users"></bootstrap-table>
             </div>
         </div>
     </div>

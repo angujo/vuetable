@@ -2,21 +2,22 @@ const axios = require('axios');
 
 export const store = {
     config: {page: 1, count: 10},
-    error: '', running: false,
+    overlay: {error: '', running: false,},
     maxDepth: 1,
     maxLeaves: 1,
     column: {title: null, titleClass: null, component: null, children: [], dataClass: null, rowspan: 1, colspan: 1, field: null},
     columns: [],
+    data: [],
     getError(error) {
         if (error.response) {
-            this.error = error.response.data;
+            this.overlay.error = error.response.data;
             console.error(error.response.status);
             console.error(error.response.data);
         } else if (error.request) {
-            this.error = error.request;
+            this.overlay.error = error.request;
             console.error(error.request);
         } else {
-            this.error = error.message;
+            this.overlay.error = error.message;
             console.error('Error', error.message);
         }
     },
@@ -72,13 +73,20 @@ export const store = {
         this.maxLeaves = this.getLeaves(tmp);
         console.log(this.maxDepth, this.maxLeaves);
         return this.breakColumns(columns);
-    }, async getData(url, params) {
+    },
+    async getData(url, params) {
         params = params !== Object(params) ? {} : params;
-        this.running = true;
-        let output = await axios.get(url, {params: params});
-        this.running = false;
-        output.then(resp => {
-            console.log(resp.data);
-        }).catch(this.getError)
+        this.overlay.running = true;
+        try {
+            let output = await axios.get(url, {params: params});
+           // console.log(output.data);
+            this.overlay.running = false;
+            return this.data = output.data;
+        } catch (e) {
+            this.getError(e);
+        } finally {
+            this.overlay.running = false;
+        }
+        return [];
     }
 };

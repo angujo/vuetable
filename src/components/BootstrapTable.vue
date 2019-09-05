@@ -1,11 +1,10 @@
 <template>
-    <progress-overlay :load="running" :error="error">
+    <progress-overlay :load="overlay.running" :error="overlay.error">
         <table class="table table-sm table-bordered">
             <thead v-if="headerRows.length>0">
             <header-row :row="headerRows"></header-row>
             </thead>
-            <tbody>
-            </tbody>
+            <table-body :data="data"></table-body>
         </table>
     </progress-overlay>
 </template>
@@ -14,13 +13,21 @@
     import HeaderRow from "../parts/HeaderRow";
     import {store} from "../store";
     import ProgressOverlay from "./ProgressOverlay";
+    import TableBody from "../parts/TableBody";
 
     export default {
         name: "BootstrapTable",
-        components: {ProgressOverlay, HeaderRow},
-        props: {columns: {type: Array,}, source: {type: [String, Array], required: true}},
+        components: {TableBody, ProgressOverlay, HeaderRow},
+        props: {
+            columns: {
+                type: Array, default() {
+                    return []
+                }
+            },
+            source: {type: [String, Array], required: true}
+        },
         data() {
-            return {levels: 0, loading: false}
+            return {levels: 0, loading: false, rawData: [], overlay: {}, data: []}
         },
         computed: {
             headerRows() {
@@ -30,11 +37,18 @@
                 return store.running;
             }, error() {
                 return store.error;
-            }
+            },
+        },
+        mounted() {
+            this.overlay = store.overlay;
         },
         methods: {},
         created() {
-            console.log(this.headerRows, store.maxDepth);
+            if (typeof this.source === 'string') {
+                store.getData(this.source).then(res => {
+                    this.data=res;
+                });
+            }
         }
     }
 </script>
