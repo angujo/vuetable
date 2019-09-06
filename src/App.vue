@@ -2,8 +2,10 @@
     <div id="app">
         <img alt="Vue logo" src="./assets/logo.png" height="50">
         <div class="row justify-content-center">
-            <div class="col-sm-12 col-md-8">
-                <bootstrap-table :columns="columns" source="https://jsonplaceholder.typicode.com/users"></bootstrap-table>
+            <div class="col-sm-11">
+                <div class="">
+                    <bootstrap-table :columns="columns" source="https://jsonplaceholder.typicode.com/users"></bootstrap-table>
+                </div>
             </div>
         </div>
     </div>
@@ -17,7 +19,7 @@
         components: {BootstrapTable},
         computed: {
             columns() {
-                return [{title: 'One'}, {title: 'two', children: [{title: 'A'}, {title: 'B'}, 'anoth one', 'of a kind',['callable',3434,[888,9090],[2212,78787]]]}]
+                return [];//[{title: 'One'}, {title: 'two', children: [{title: 'A'}, {title: 'B'}, 'anoth one', 'of a kind',['callable',3434,[888,9090],[2212,78787]]]}]
             }
         }
     }
