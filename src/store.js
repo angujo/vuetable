@@ -36,6 +36,7 @@ export const store = {
         if (Array.isArray(rcol)) rcol = {title: index, children: rcol};
         if (rcol !== Object(rcol)) rcol = {title: '', children: []};
         if (this.fromData) rcol.field = rcol.title;
+        else rcol.field = rcol.field ? rcol.field : rcol.title;
         return Object.assign({}, this.column, rcol);
     },
     breakColumns(row_columns, lvl) {
@@ -47,7 +48,7 @@ export const store = {
             rc.colspan = this.getLeaves(rc);
             rc.rowspan = this.rowspan(lvl, depth);
             if (1 === depth) {
-                this.dColumns.push([rc.field, rc.title]);
+                this.dColumns.push(rc);
             }
             rc.children = this.breakColumns(rc.children, lvl);
             if (rc.children.length <= 0) this.columns.push(rc);

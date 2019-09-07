@@ -27,11 +27,14 @@
             },
             pages() {
                 let pg = [];
-                pg = pg.concat(this.beforePages).concat(this.afterPages);
+                pg = pg.concat(this.beforePages);
+                pg = pg.concat(this.afterPages);
                 return pg;
             },
             beforePages() {
-                let pgs = [], pg = this.config.page <= this.totalPages ? this.config.page : this.totalPages, c = 4;
+                let pgs = [], pg = this.config.page <= this.totalPages ? this.config.page : this.totalPages,
+                    app = ((parseInt(this.config.page) + 4) > this.totalPages ? (parseInt(this.config.page) + 4) - this.totalPages : 0),
+                    c = 4 + app;
                 while (pg > 0 && c > 0) {
                     pgs.push({url: store.insertParam(this.config.source_url, 'page', pg), txt: pg, no: pg});
                     pg--;
@@ -41,7 +44,8 @@
                 return pgs.reverse();
             },
             afterPages() {
-                let pgs = [], pg = this.config.page, c = 3;
+                let pgs = [], pg = this.config.page, c = 8 - (this.beforePages.length);
+                // console.log(c);
                 while (pg < this.totalPages && c > 0) {
                     pg++;
                     pgs.push({url: store.insertParam(this.config.source_url, 'page', pg), txt: pg, no: pg});
