@@ -55,7 +55,15 @@
             getURLData(url) {
                 store.fathomUrl(url);
                 store.getData(store.insertParam(url, 'per_page', store.config.per_page)).then(res => {
-                    this.data = res;
+                    if (Object(res) === res) {
+                        this.cols = res.columns ? res.columns : [];
+                        store.config.page = res.page ? res.page : 1;
+                        store.config.records = res.total ? res.total : 1;
+                        if (res.data && Array.isArray(res.data)) {
+                            this.data = res.data;
+                            if (!res.total) store.config.records = res.data.length;
+                        }
+                    } else this.data = res;
                     if (this.headerRows.length <= 0 && res.length > 0) {
                         store.fromData = true;
                         res.forEach(r => {
