@@ -45,8 +45,7 @@
             },
             afterPages() {
                 let pgs = [], pg = this.config.page, c = 8 - (this.beforePages.length);
-                // console.log(c);
-                while (pg < this.totalPages && c > 0) {
+                while (pg <= this.totalPages && c >= 0) {
                     pg++;
                     pgs.push({url: store.insertParam(this.config.source_url, 'page', pg), txt: pg, no: pg});
                     c--;
